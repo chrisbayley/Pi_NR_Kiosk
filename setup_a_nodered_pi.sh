@@ -6,15 +6,13 @@ if [ "$(id -u)" != "0" ]
    exit 1
 fi
 
-if false
-then
 
-apt-get update
-apt-get upgrade
-apt-get autoremove
-sudo apt-get clean
+# apt-get update
+# apt-get upgrade
+# apt-get autoremove
+# sudo apt-get clean
 
-fi
+### TESTED MARKER - lines before here teste #####
 
 bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
 # systemctl start nodered
