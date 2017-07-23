@@ -12,18 +12,7 @@ if [ "$EUID" == "0" ]
   esac
 fi
 
-
-# sudo apt-get update
-# sudo apt-get upgrade
-# sudo apt-get autoremove
-# sudo apt-get clean
-#
-# bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
-
-sudo npm i -g --unsafe-perm  node-red-dashboard
-sudo npm i -g --unsafe-perm  node-red-contrib-xbee
-
-# remove the kernel serial console
+## remove the kernel serial console
 sudo sed -i.bak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
 
 ## Enable the ttyS0 for general use
@@ -35,6 +24,22 @@ then
 else
 	sudo echo -en "\n# Enable the serial port\n${UART_TXT}=1\n" >> $CONFIG_FILE
 fi
+
+## Enable ssh
+touch /boot/ssh
+
+# sudo apt-get update
+# sudo apt-get upgrade
+# sudo apt-get autoremove
+# sudo apt-get clean
+#
+# bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
+
+sudo npm i -g --unsafe-perm  node-red-dashboard
+sudo npm i -g --unsafe-perm  node-red-contrib-xbee
+# sudo npm i -g serialport
+sudo npm i -g --unsafe-perm  xbee-api
+#
 
 systemctl enable nodered
 
@@ -57,12 +62,11 @@ cd .node-red/
 # git clone git@github.com:chrisbayley/WaterSys104EVR.git
 git clone https://github.com/chrisbayley/WaterSys104EVR.git
 
-mkdir nodes
-cd nodes
+#mkdir nodes
+#cd nodes
 #git clone git@github.com:chrisbayley/NR-XBeeAPI.git
-git clone https://github.com/chrisbayley/NR-XBeeAPI.git
+#git clone https://github.com/chrisbayley/NR-XBeeAPI.git
 
-# sudo npm i -g serialport
 sudo systemctl disable avahi-daemon
 # sudo systemctl stop avahi-daemon
 sudo adduser pi tty
