@@ -12,21 +12,22 @@ if [ "$EUID" == "0" ]
   esac
 fi
 
-## remove the kernel serial console
-sudo sed -i.bak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
-
-## Enable the ttyS0 for general use
-CONFIG_FILE="/boot/config.txt"
-UART_TXT="enable_uart"
-if grep --silent ${UART_TXT} $CONFIG_FILE
-then
-	sudo sed -i.bak -e "s/^\(${UART_TXT}\)=./\1=1/" $CONFIG_FILE
-else
-	sudo echo -en "\n# Enable the serial port\n${UART_TXT}=1\n" >> $CONFIG_FILE
-fi
-
-## Enable ssh
-touch /boot/ssh
+## put this in boot section
+# ## remove the kernel serial console
+# sudo sed -i.bak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
+#
+# ## Enable the ttyS0 for general use
+# CONFIG_FILE="/boot/config.txt"
+# UART_TXT="enable_uart"
+# if grep --silent ${UART_TXT} $CONFIG_FILE
+# then
+# 	sudo sed -i.bak -e "s/^\(${UART_TXT}\)=./\1=1/" $CONFIG_FILE
+# else
+# 	sudo echo -en "\n# Enable the serial port\n${UART_TXT}=1\n" >> $CONFIG_FILE
+# fi
+#
+# ## Enable ssh
+# touch /boot/ssh
 
 # sudo apt-get update
 # sudo apt-get upgrade
