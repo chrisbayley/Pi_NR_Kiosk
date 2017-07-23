@@ -56,8 +56,8 @@ sudo systemctl disable avahi-daemon
 sudo systemctl disable serial-getty@ttyAMA0.service
 
 ## sort perms on serial port
-sudo adduser pi tty
-sudo chmod g+r /dev/ttyS0
+#sudo adduser pi tty
+#sudo chmod g+r /dev/ttyS0
 
 ## install minimal Xserver
 sudo apt-get install --yes --no-install-recommends xserver-xorg
@@ -77,7 +77,6 @@ ln -sf kiosk.sh .Xsession
 sudo sh -c "echo -ne '\nallowed_users=anybody\n' >> /etc/X11/Xwrapper.config"
 
 
-sudo sh -c 'echo SUBSYSTEM==\"backlight\", MODE=\"0666\" > 50-backlight.rules'
+sudo sh -c 'echo SUBSYSTEM==\"backlight\", GROUP=\"video\" > 50-backlight.rules'
 
 # sudo reboot
-
