@@ -9,14 +9,15 @@ fi
 if false
  then
     false
-fi
 
 apt-get update
 apt-get upgrade
 apt-get autoremove
 sudo apt-get clean
 
-# bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
+fi
+
+bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
 # systemctl start nodered
 #
 # apt-get install git
