@@ -3,9 +3,12 @@
 if [ "$(id -u)" != "0" ]
  then
    echo "Please run as root"
+   exit 1
 fi
 
-if false; then
+if false
+ then
+    false
 fi
 
 apt-get update
