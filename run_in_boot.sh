@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## remove the kernel's serial console
-sed -i.bak -re 's/console=serial0,[0-9]+ //' cmdline.txt
+sed -i.bak -e 's/console=serial0,[0-9]* //' cmdline.txt
 
 ## Enable the ttyS0 for general use
 CONFIG_FILE="config.txt"
