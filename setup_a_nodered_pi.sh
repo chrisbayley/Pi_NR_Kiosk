@@ -18,8 +18,10 @@ sudo apt-get upgrade
 sudo apt-get autoremove
 sudo apt-get clean
 
-
 bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
+
+sudo npm i -g --unsafe-perm --no-progress node-red-dashboard
+sudo npm i -g --unsafe-perm --no-progress node-red-contrib-xbee
 
 # remove the kernel serial console
 sudo sed -ibak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
