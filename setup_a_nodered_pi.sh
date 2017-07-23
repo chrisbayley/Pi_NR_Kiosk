@@ -12,10 +12,25 @@ fi
 # apt-get autoremove
 # sudo apt-get clean
 
-### TESTED MARKER - lines before here teste #####
 
-bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
-# systemctl start nodered
+# bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
+### TESTED MARKER - lines before here tested #####
+
+## remove the kernel serial console
+sed -ibak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
+
+## Enable the ttyS0 for general use
+CONFIG_FILE="/boot/config.txt"
+UART_TXT="enable_uart"
+if grep --silent ${UART_TXT} $CONFIG_FILE
+then
+	sed -i.bak -e "s/^\(${UART_TXT}\)=./\1=1/" $CONFIG_FILE
+else
+	echo -en "\n# Enable the serial port\n${UART_TXT}=1\n" >> $CONFIG_FILE
+fi
+
+
+# systemctl enable nodered
 #
 # apt-get install git
 # git config --global alias.st status
