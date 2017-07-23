@@ -94,4 +94,7 @@ sudo sh -c "echo -ne '\nallowed_users=anybody\n' >> /etc/X11/Xwrapper.config"
 
 sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"
 
+sudo sh -c 'echo SUBSYSTEM==\"backlight\", MODE=\"0666\" > 50-backlight.rules'
+
 # sudo reboot
+
