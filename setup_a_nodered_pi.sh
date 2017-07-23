@@ -12,23 +12,6 @@ if [ "$EUID" == "0" ]
   esac
 fi
 
-## put this in boot section
-# ## remove the kernel serial console
-# sudo sed -i.bak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
-#
-# ## Enable the ttyS0 for general use
-# CONFIG_FILE="/boot/config.txt"
-# UART_TXT="enable_uart"
-# if grep --silent ${UART_TXT} $CONFIG_FILE
-# then
-# 	sudo sed -i.bak -e "s/^\(${UART_TXT}\)=./\1=1/" $CONFIG_FILE
-# else
-# 	sudo echo -en "\n# Enable the serial port\n${UART_TXT}=1\n" >> $CONFIG_FILE
-# fi
-#
-# ## Enable ssh
-# touch /boot/ssh
-
 # sudo apt-get update
 # sudo apt-get upgrade
 # sudo apt-get autoremove
@@ -44,7 +27,7 @@ fi
 
 sudo systemctl enable nodered
 
-sudo apt-get install --no-install-recommends git
+sudo apt-get install git
 git config --global alias.st status
 git config --global alias.ci commit
 # git config --global user.name "Chris BAYLEY"
@@ -58,41 +41,41 @@ git config --global branch.autosetuprebase always
 ssh-keygen
 cat .ssh/id_rsa.pub
 
-mkdir .node-red
-cd .node-red/
+# mkdir .node-red
+# cd .node-red/
 # git clone git@github.com:chrisbayley/WaterSys104EVR.git
-git clone https://github.com/chrisbayley/WaterSys104EVR.git
+git clone https://github.com/chrisbayley/WaterSys104EVR.git .node-red
 
+# cd
 #mkdir nodes
 #cd nodes
 #git clone git@github.com:chrisbayley/NR-XBeeAPI.git
 #git clone https://github.com/chrisbayley/NR-XBeeAPI.git
 
 sudo systemctl disable avahi-daemon
-# sudo systemctl stop avahi-daemon
-sudo adduser pi tty
-# sudo systemctl stop serial-getty@ttyAMA0.service
 sudo systemctl disable serial-getty@ttyAMA0.service
+
+## sort perms on serial port
+sudo adduser pi tty
 sudo chmod g+r /dev/ttyS0
-# #npm install serialport@4.0.7
-# reboot
 
+## install minimal Xserver
+sudo apt-get install --yes --no-install-recommends xserver-xorg
+sudo apt-get install --yes --no-install-recommends xinit
+sudo apt-get install --yes --no-install-recommends xdotool
+sudo apt-get install --yes --no-install-recommends unclutter
+sudo apt-get install --yes --no-install-recommends xserver-xorg-legacy
+sudo apt-get install --yes --no-install-recommends chromium-browser
 
-sudo apt-get install --no-install-recommends xserver-xorg
-sudo apt-get install --no-install-recommends xinit
-sudo apt-get install --no-install-recommends xdotool
-sudo apt-get install --no-install-recommends unclutter
-sudo apt-get install --no-install-recommends xserver-xorg-legacy
-sudo apt-get install --no-install-recommends chromium-browser
+## get the kisok script
+curl -O https://raw.githubusercontent.com/chrisbayley/Pi_NR_Kiosk/master/kiosk.sh
 
-cd
-git clone https://raw.githubusercontent.com/chrisbayley/Pi_NR_Kiosk/master/kiosk.sh
-
+## make it the default Xsession
+ln -sf kiosk.sh .Xsession
 
 # sudo nano Xwrapper.config
 sudo sh -c "echo -ne '\nallowed_users=anybody\n' >> /etc/X11/Xwrapper.config"
 
-sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"
 
 sudo sh -c 'echo SUBSYSTEM==\"backlight\", MODE=\"0666\" > 50-backlight.rules'
 
