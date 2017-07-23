@@ -35,15 +35,15 @@ touch /boot/ssh
 #
 # bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
 
-sudo npm i -g --unsafe-perm  node-red-dashboard
-sudo npm i -g --unsafe-perm  node-red-contrib-xbee
-# sudo npm i -g serialport
-sudo npm i -g --unsafe-perm  xbee-api
+# sudo npm i -g --unsafe-perm  node-red-dashboard
+# sudo npm i -g --unsafe-perm  node-red-contrib-xbee
+# # sudo npm i -g serialport
+# sudo npm i -g --unsafe-perm  xbee-api
 #
 
-systemctl enable nodered
+sudo systemctl enable nodered
 
-sudo apt-get install git
+sudo apt-get install --no-install-recommends git
 git config --global alias.st status
 git config --global alias.ci commit
 # git config --global user.name "Chris BAYLEY"
