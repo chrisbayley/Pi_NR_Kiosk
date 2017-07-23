@@ -7,3 +7,6 @@ touch ssh
 curl -O https://raw.githubusercontent.com/chrisbayley/Pi_NR_Kiosk/master/wpa_supplicant.conf
 
 cat ~/.ssh/id_rsa.pub | ssh pi 'mkdir .ssh && cat >> .ssh/authorized_keys && echo "Public key successfully copied"'
+
+on the pi:
+bash <(curl -sL https://raw.githubusercontent.com/chrisbayley/Pi_NR_Kiosk/master/setup_a_nodered_pi.sh)

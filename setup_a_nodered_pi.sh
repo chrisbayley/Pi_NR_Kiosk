@@ -13,18 +13,18 @@ if [ "$EUID" == "0" ]
 fi
 
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get autoremove
-sudo apt-get clean
+# sudo apt-get update
+# sudo apt-get upgrade
+# sudo apt-get autoremove
+# sudo apt-get clean
+#
+# bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
 
-bash <(curl -sL https://raw.githubusercontent.com/node-red/raspbian-deb-package/master/resources/update-nodejs-and-nodered)
-
-sudo npm i -g --unsafe-perm --no-progress node-red-dashboard
-sudo npm i -g --unsafe-perm --no-progress node-red-contrib-xbee
+sudo npm i -g --unsafe-perm  node-red-dashboard
+sudo npm i -g --unsafe-perm  node-red-contrib-xbee
 
 # remove the kernel serial console
-sudo sed -ibak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
+sudo sed -i.bak -re 's/console=serial0,[0-9]+ //' /boot/cmdline.txt
 
 ## Enable the ttyS0 for general use
 CONFIG_FILE="/boot/config.txt"
