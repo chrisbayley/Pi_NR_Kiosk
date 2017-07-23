@@ -7,8 +7,7 @@ if [ "$(id -u)" != "0" ]
 fi
 
 if false
- then
-    false
+then
 
 apt-get update
 apt-get upgrade
