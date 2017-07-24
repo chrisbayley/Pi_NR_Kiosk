@@ -30,12 +30,12 @@ do
    unclutter &
 
    # Step 2: Start the screensaver
-   $SCREENSAVER &
+   # $SCREENSAVER &
 
    # Step 3: Adjust the keymapping, pointer configuration, mouse shape,
    # and root window color
-   $XMODMAP
-   $SCREENSETUP
+   # $XMODMAP
+   # $SCREENSETUP
 
    # Step 4: Start the browser
    $BROWSER $STARTPAGE &
