@@ -17,54 +17,61 @@ SCREENSETUP="xsetroot -cursor_name left_ptr -solid blue" SECONDS="15"
 CHECK="curl $HOMEPAGE --head --max-time 1"
 # --- End of configuration variables
 
-while true do
-         # Step 1: Start the X server, allowing local connections only
-         $XSERVER $DISPLAY -nolisten tcp -ac -terminate &
-         XPID=$!
+while true
+do
+   # set the backlight to reasonable
+   sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"
 
-         # Step 2: Start the screensaver
-         $SCREENSAVER &
+   # Step 1: Start the X server, allowing local connections only
+   $XSERVER $DISPLAY -nolisten tcp -ac -terminate &
+   XPID=$!
 
-         # Step 3: Adjust the keymapping, pointer configuration, mouse shape,
-         # and root window color
-         $XMODMAP
-         $SCREENSETUP
+   # Hide the mouse from the display
+   unclutter &
 
-         # Step 4: Start the browser
-         $BROWSER $STARTPAGE &
-         BROWSERPID=$!
+   # Step 2: Start the screensaver
+   $SCREENSAVER &
 
-         # Step 5: Start the network monitoring code
-         (
-             sleep 10        # Give the browser a chance to start
-             STATE="UP"
-             while sleep $SECONDS
-             do
-                 $CHECK
-                 RESULT=$?
-                 case "$STATE" in
-                 "UP")
-                     if [ "$RESULT" -ne "0" ]
-                     then
-                         firefox -remote "openurl($WARN)"
-                         STATE="DOWN"
+   # Step 3: Adjust the keymapping, pointer configuration, mouse shape,
+   # and root window color
+   $XMODMAP
+   $SCREENSETUP
 
-                 fi
-                 ;;
-                 "DOWN")
-                     if [ "$RESULT" -eq 0 ]
-                     then
-                         firefox -remote "openurl($HOMEPAGE)"
-                         STATE="UP"
-                  fi
-                  ;;
-                  esac
-             done
-         )&
+   # Step 4: Start the browser
+   $BROWSER $STARTPAGE &
+   BROWSERPID=$!
 
-         # Step 6: Wait until the application dies
-         wait $BROWSERPID
+   # Step 5: Start the network monitoring code
+   # (
+   #     sleep 10        # Give the browser a chance to start
+   #     STATE="UP"
+   #     while sleep $SECONDS
+   #     do
+   #         $CHECK
+   #         RESULT=$?
+   #         case "$STATE" in
+   #         "UP")
+   #             if [ "$RESULT" -ne "0" ]
+   #             then
+   #                 firefox -remote "openurl($WARN)"
+   #                 STATE="DOWN"
+   #
+   #         fi
+   #         ;;
+   #         "DOWN")
+   #             if [ "$RESULT" -eq 0 ]
+   #             then
+   #                 firefox -remote "openurl($HOMEPAGE)"
+   #                 STATE="UP"
+   #          fi
+   #          ;;
+   #          esac
+   #     done
+   # )&
 
-         # Step 7: Kill everything and start over
-         killall -KILL $BROWSERPID $XPID
+   # Step 6: Wait until the application dies
+   wait $BROWSERPID
+
+   # Step 7: Kill everything and start over
+   killall -KILL $BROWSERPID $XPID
 done
