@@ -58,15 +58,20 @@ sudo apt-get install --yes --no-install-recommends chromium-browser
 
 ## get the kisok script
 curl -O https://raw.githubusercontent.com/chrisbayley/Pi_NR_Kiosk/master/kiosk.sh
+chmod +x kiosk.sh
 
 ## make it the default Xsession
-ln -sf kiosk.sh .Xsession
+#ln -sf kiosk.sh .Xsession
+echo "kiosk.sh" >> .profile
 
 # sudo nano Xwrapper.config
-sudo sh -c "echo -ne '\nallowed_users=anybody\n' >> /etc/X11/Xwrapper.config"
+sudo sed -i.bak -e 's/\(^allowed_users\)=.*/\1=anybody/' /etc/X11/Xwrapper.config
 
 # sort out some device permissions
-sudo sh -c 'echo SUBSYSTEM==\"backlight\", GROUP=\"video\" > 50-backlight.rules'
+sudo sh -c 'echo SUBSYSTEM==\"backlight\", GROUP=\"video\" > /etc/udev/rules.d/50-backlight.rules'
+
+## set to autologin
+sudo raspi-config nonint do_boot_behaviour B2
 
 ## sort perms on serial port
 #sudo adduser pi tty
