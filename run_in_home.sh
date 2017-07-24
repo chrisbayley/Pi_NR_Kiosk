@@ -13,7 +13,7 @@ if [ "$EUID" == "0" ]
 fi
 
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get --yes upgrade
 sudo apt-get autoremove
 sudo apt-get clean
 
@@ -27,7 +27,7 @@ sudo npm i -g --unsafe-perm  xbee-api
 
 sudo systemctl enable nodered
 
-sudo apt-get install git
+sudo apt-get install --yes git
 git config --global alias.st status
 git config --global alias.ci commit
 git config --global user.name "Chris BAYLEY"
