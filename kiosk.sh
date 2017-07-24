@@ -9,6 +9,11 @@ sudo sh -c "echo 100 > /sys/class/backlight/rpi_backlight/brightness"
 # Hide the mouse from the display
 unclutter &
 
+#wait for NodeRED to start
+while ! nc -w 1 -z localhost 1880; do   
+  sleep 0.1 # wait for 1/10 of the second before check again
+done
+
 # If Chrome crashes (usually due to rebooting), clear the crash flag so we don't have the annoying warning bar
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' /home/pi/.config/chromium/Default/Preferences
 sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' /home/pi/.config/chromium/Default/Preferences
