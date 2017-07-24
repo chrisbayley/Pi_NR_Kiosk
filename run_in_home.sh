@@ -61,10 +61,12 @@ curl -O https://raw.githubusercontent.com/chrisbayley/Pi_NR_Kiosk/master/kiosk.s
 chmod +x kiosk.sh
 
 ## make it the default Xsession
-#ln -sf kiosk.sh .Xsession
-echo "kiosk.sh" >> .profile
+ln -sf kiosk.sh .Xsession
 
-# sudo nano Xwrapper.config
+#get bash to startx
+echo '[ "$(tty)" = "/dev/tty1" ] && exec startx' >> .profile
+
+# allow anybody to startx
 sudo sed -i.bak -e 's/\(^allowed_users\)=.*/\1=anybody/' /etc/X11/Xwrapper.config
 
 # sort out some device permissions
@@ -72,9 +74,5 @@ sudo sh -c 'echo SUBSYSTEM==\"backlight\", GROUP=\"video\" > /etc/udev/rules.d/5
 
 ## set to autologin
 sudo raspi-config nonint do_boot_behaviour B2
-
-## sort perms on serial port
-#sudo adduser pi tty
-#sudo chmod g+r /dev/ttyS0
 
 echo "DONE: Now so 'sudo reboot'"
