@@ -30,6 +30,7 @@ sudo systemctl enable nodered
 sudo apt-get install --yes git
 git config --global alias.st status
 git config --global alias.ci commit
+git config --global alias.co checkout
 git config --global user.name "Chris BAYLEY"
 git config --global user.email "chris@codeweaver.co.nz"
 git config --global color.ui always
